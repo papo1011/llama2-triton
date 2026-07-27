@@ -1,0 +1,2 @@
+# LLAMA2 TRITON 
+Rewriting [karpathy's llama2.c](https://github.com/karpathy/llama2.c) in python+triton for learning purposes. Hand-written! Yes, you heard that right, even in 2026. I'm not crazy, I just want to dig deeper.
