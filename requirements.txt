@@ -1,1 +1,2 @@
+protobuf==7.35.1
 triton==3.7.1
