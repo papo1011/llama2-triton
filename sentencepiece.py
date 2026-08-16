@@ -35,6 +35,17 @@ class SentencePieceProcessor:
             print("**", field, "**")
             print(getattr(self, field))
 
+    def show_pieces(self, start_id: int, end_id: int):
+        """print pieces within a range (start_id, end_id)"""
+
+        if end_id < start_id:
+            print("end_id should be greater then start_id")
+        elif end_id == start_id:
+            print(self.pieces[start_id])
+        else:
+            for i in range(start_id, end_id):
+                print(self.pieces[i])
+
     def encode():
         """raw text -> normalize -> BPE encoding -> byte fallback -> token IDs"""
 
@@ -43,4 +54,4 @@ class SentencePieceProcessor:
 
 
 sp = SentencePieceProcessor()
-sp.inspect()
+sp.show_pieces(1000, 1030)
