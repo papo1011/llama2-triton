@@ -1,5 +1,3 @@
-import string
-
 import sentencepiece_model_pb2
 
 
@@ -46,12 +44,25 @@ class SentencePieceProcessor:
             for i in range(start_id, end_id):
                 print(self.pieces[i])
 
-    def encode():
-        """raw text -> normalize -> BPE encoding -> byte fallback -> token IDs"""
+    def normalize(self, text: str) -> str:
+        """
+        ** normalizer_spec **
+        name: "identity"
+        precompiled_charsmap: ""
+        add_dummy_prefix: true
+        remove_extra_whitespaces: false
+        normalization_rule_tsv: ""
+        """
+
+        # add dummy prefix
+        text = f" {text}"
+
+        return text.replace(" ", "▁")
+
+    def encode(self, text: str):
+        """
+        raw text -> normalize -> BPE encoding -> byte fallback -> token IDs
+        """
 
     def decode():
         """token IDs -> byte handling -> text"""
-
-
-sp = SentencePieceProcessor()
-sp.show_pieces(1000, 1030)
