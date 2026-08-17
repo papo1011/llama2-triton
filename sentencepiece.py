@@ -44,6 +44,10 @@ class SentencePieceProcessor:
             for i in range(start_id, end_id):
                 print(self.pieces[i])
 
+    def get_score(self, piece: str) -> float:
+        id = self.ids[piece]
+        return self.s[id]
+
     def normalize(self, text: str) -> str:
         """
         ** normalizer_spec **
@@ -59,6 +63,31 @@ class SentencePieceProcessor:
 
         return text.replace(" ", "▁")
 
+    def bpe_encode(self, text: str) -> list[int]:
+        """
+        normalized text -> list of token
+        """
+
+        tokens = list(text)
+
+        while len(tokens) > 1:
+            pieces: list[tuple[float, int, str]] = []  # score, pos, piece
+
+            for i in range(len(tokens) - 1):
+                piece = tokens[i] + tokens[i + 1]
+
+                if piece in self.ids:
+                    pieces.append((self.get_score(piece), i, piece))
+
+            if not pieces:
+                break
+
+            _, index, best_piece = max(pieces, key=lambda x: x[0])
+
+            tokens[index : index + 2] = [best_piece]
+
+        return [self.ids[token] for token in tokens]
+
     def encode(self, text: str):
         """
         raw text -> normalize -> BPE encoding -> byte fallback -> token IDs
@@ -66,3 +95,8 @@ class SentencePieceProcessor:
 
     def decode():
         """token IDs -> byte handling -> text"""
+
+
+sp = SentencePieceProcessor()
+txt = sp.normalize("Hello World")
+print(sp.bpe_encode(txt))
